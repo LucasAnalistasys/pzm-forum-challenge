@@ -13,6 +13,14 @@ class Question extends Model
 
     protected $fillable = ['title', 'slug', 'body', 'user_id'];
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function answer(){
+        return $this->hasMany(Answer::class);
+    }
+
     // Define que o ID não é um número que cresce sozinho
     public $incrementing = false;
     protected $keyType = 'string';
