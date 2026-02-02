@@ -8,9 +8,9 @@ class AnswerService{
 
     protected AnswerRepository $answerRepository;
     
-    public function __construct()
+    public function __construct(AnswerRepository $answerRepository)
     {
-        
+        $this->answerRepository = $answerRepository;
     }
 
     public function index(){

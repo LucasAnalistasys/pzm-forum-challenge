@@ -14,7 +14,7 @@ class AnswerController extends Controller
     
     public function __construct(AnswerService $answerService)
     {
-        $this->$answerService = $answerService;
+        $this->answerService = $answerService;
     }
 
     /**
