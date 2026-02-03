@@ -9,6 +9,7 @@ use App\Http\Requests\AttachmentRequest;
 use App\Models\Question;
 use App\Models\Answer;
 use Illuminate\Http\JsonResponse;
+use App\Http\Resources\AttachmentResource;
 
 class AttachmentController extends Controller
 {
@@ -27,7 +28,7 @@ class AttachmentController extends Controller
             $request->file('file')
         );
 
-        return response()->json($attachment, 201);
+        return response()->json(new AttachmentResource($attachment), 201);
     }
 
     //Mostrar os detalhes do anexo
@@ -35,7 +36,7 @@ class AttachmentController extends Controller
     {
         $attachment = $this->attachmentService->find($id);
 
-        return response()->json($attachment, 200);
+        return response()->json(new AttachmentResource($attachment), 200);
     }
 
     public function delete(string $id): JsonResponse
