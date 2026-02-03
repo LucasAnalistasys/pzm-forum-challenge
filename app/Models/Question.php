@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str; // Importante para o UUID
+use Illuminate\Support\Str; 
 use App\Traits\HasUuid;
 
 class Question extends Model
@@ -21,7 +21,11 @@ class Question extends Model
         return $this->hasMany(Answer::class);
     }
 
-    // Define que o ID não é um número que cresce sozinho
+    public function attachments()
+    {
+        return $this->morphMany(Attachment::class, 'attachable');
+    }
+
     public $incrementing = false;
     protected $keyType = 'string';
 }
