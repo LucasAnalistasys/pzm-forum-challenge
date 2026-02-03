@@ -14,7 +14,6 @@ class AttachmentResource extends JsonResource
             'id' => $this->id,
             'file_name' => $this->file_name,
             'file_type' => $this->file_type,
-            // Aqui entra a mágica da URL completa
             'url' => asset(Storage::url($this->file_path)),
             'created_at' => $this->created_at->format('d/m/Y H:i'),
         ];

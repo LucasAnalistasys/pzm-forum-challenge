@@ -18,61 +18,46 @@ class AnswerController extends Controller
         $this->answerService = $answerService;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+    // Lista as respostas de uma pergunta específica
     public function index($questionId):JsonResponse
     {   
         $response = $this->answerService->index($questionId);
         return response()->json($response);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Cria uma nova resposta para uma pergunta específica
     public function store(AnswerRequest $request, $questionId): JsonResponse
     {   
         $response = $this->answerService->store($request->validated(), $questionId);
         return response()->json($response, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Exibe uma resposta específica
     public function show(Answer $answer): JsonResponse
     {
         $response = $this->answerService->show($answer->id);
         return response()->json($response);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Answer $answer)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Atualiza uma resposta específica
     public function update(AnswerRequest $request, Answer $answer): JsonResponse
     {
         $response = $this->answerService->update($answer->id, $request->validated());
         return response()->json($response);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Deleta uma resposta específica
     public function destroy(Answer $answer): JsonResponse
     {
         $response = $this->answerService->destroy($answer->id);

@@ -16,12 +16,13 @@ class QuestionService{
         $this->questionRepository = $questionRepository;
     }
 
-    public function index() // Listar perguntas
+    // Listar perguntas
+    public function index() 
     {
         return $this->questionRepository->index();
     }
-
-    public function store(array $data) // Criar nova pergunta
+     // Criar nova pergunta
+    public function store(array $data) 
     {
         $data['user_id'] = auth()->id();
         $data['slug'] = Str::slug($data['title']) . '-' . Str::random(5); // Gera: minha-pergunta-abc12
@@ -29,13 +30,14 @@ class QuestionService{
         return $this->questionRepository->store($data);
     }
 
-     public function show(string $id) // Exibir pergunta específica
+    // Mostrar pergunta específica
+    public function show(string $id) 
     {
-        
         return $this->questionRepository->show($id);
     }
 
-    public function update(string $id, array $data) // Atualizar pergunta
+    // Atualizar pergunta
+    public function update(string $id, array $data) 
     {
         $question = $this->questionRepository->show($id);
 
@@ -46,6 +48,7 @@ class QuestionService{
         return $this->questionRepository->update($id, $data);
     }
 
+    // Deletar pergunta
     public function destroy(string $id) // Deletar pergunta
     {
         $question = $this->questionRepository->show($id);

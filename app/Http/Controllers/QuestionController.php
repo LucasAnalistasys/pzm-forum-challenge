@@ -18,54 +18,39 @@ class QuestionController extends Controller
         $this->questionService = $questionService;
     }
 
-    /**
-     * Lista de Perguntas.
-     */
+    
+    // Lista de Perguntas. 
     public function index():JsonResponse // Listar perguntas
     {   
         $response = $this->questionService->index();
         return response()->json($response);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create() 
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Cria uma nova pergunta
     public function store(Request $request): JsonResponse // Criar nova pergunta
     {   
         $response = $this->questionService->store($request->all());
         return response()->json($response);
     }
 
-    /**
-     * Display the specified resource.
-     */
-
+    // Exibe uma pergunta específica
     public function show(Question $question): JsonResponse // Exibir pergunta específica
     {
         $response = $this->questionService->show($question->id);
         return response()->json($response);
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Question $question)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Atualiza uma pergunta existente
     public function update(Request $request, Question $question): JsonResponse // Atualizar pergunta
     {
         $response = $this->questionService->update($question->id, $request->all());
@@ -73,9 +58,7 @@ class QuestionController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Deleta uma pergunta
     public function destroy(Question $question): JsonResponse // Deletar pergunta
     {
         $this->questionService->destroy($question->id);
