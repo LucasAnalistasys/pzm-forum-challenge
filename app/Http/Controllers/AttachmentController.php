@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\AttachmentService;
+use App\Http\Requests\AttachmentRequest;
 use App\Models\Question;
 use App\Models\Answer;
 use Illuminate\Http\JsonResponse;
