@@ -27,7 +27,6 @@ Route::get('/questions/{question}/answers', [AnswerController::class, 'index']);
 | Protected Routes (Exigem Token Sanctum)
 |--------------------------------------------------------------------------
 */
-
 Route::middleware('auth:sanctum')->group(function () {
     
     // Usuário
@@ -40,7 +39,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/questions/{question}', [QuestionController::class, 'destroy']);
 
     // Ações de Respostas
+    // 1. Criação vinculada à pergunta
     Route::post('/questions/{question}/answers', [AnswerController::class, 'store']);
-    Route::delete('/answers/{answer}', [AnswerController::class, 'destroy']);
     
+    // 2. O apiResource já cuida de: 
+    //    GET /answers/{answer} -> show
+    //    PUT /answers/{answer} -> update
+    //    DELETE /answers/{answer} -> destroy
+    Route::apiResource('answers', AnswerController::class)->except(['index', 'store']);
 });

@@ -39,6 +39,12 @@ class AnswerService{
     // Atualiza uma resposta específica
     public function update(string $id, array $data)
     {
+        $answer = $this->answerRepository->show($id);
+        
+        if ($answer->user_id !== auth()->id()) {
+            abort(403, 'Você não tem permissão para editar esta resposta.');
+        }
+
         return $this->answerRepository->update($id, $data);
     }
 
