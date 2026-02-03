@@ -11,7 +11,7 @@ class Question extends Model
 {
     use HasFactory,HasUuid;
 
-    protected $fillable = ['title', 'slug', 'body', 'user_id'];
+    protected $fillable = ['title', 'slug', 'content', 'user_id'];
 
     public function user(){
         return $this->belongsTo(User::class);

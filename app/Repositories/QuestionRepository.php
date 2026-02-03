@@ -12,7 +12,7 @@ class QuestionRepository{
     }
 
     public function index(){
-        return Question::all();
+        return Question::with('user')->latest()->get();
     }
 
     public function store(array $data)

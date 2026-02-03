@@ -1,3 +1,114 @@
+# Forum PZM
+
+Projeto de exemplo / base para um fórum de perguntas e respostas.
+
+## **Como Instalar**
+
+- **Pré-requisitos:** `PHP` (8.0+ recomendado), `Composer`, `Node.js` + `npm` ou `yarn`, banco de dados (MySQL/Postgres), `git`.
+- Clone o repositório:
+
+  ```bash
+  git clone https://seu-repositorio.git
+  cd forum-pzm
+  ```
+
+- Instale dependências PHP e JS:
+
+  ```bash
+  composer install
+  npm install
+  # ou yarn
+  ```
+
+- Copie o arquivo de ambiente e ajuste as credenciais do banco:
+
+  ```bash
+  cp .env.example .env
+  # editar .env para configurar DB, APP_URL, etc.
+  php artisan key:generate
+  ```
+
+- Build assets (desenvolvimento ou produção):
+
+  ```bash
+  npm run dev    # desenvolvimento
+  npm run build  # produção
+  ```
+
+## **Como rodar migrations**
+
+- Garanta que as variáveis de conexão no `.env` estão corretas.
+- Rodar migrations:
+
+  ```bash
+  php artisan migrate
+  ```
+
+- Para limpar e recriar todas as tabelas (ambiente de dev):
+
+  ```bash
+  php artisan migrate:fresh --seed
+  ```
+
+## **Como rodar testes**
+
+- Executar suíte de testes com PHPUnit:
+
+  ```bash
+  ./vendor/bin/phpunit
+  # ou
+  php artisan test
+  ```
+
+- No Windows pode ser necessário usar o executável `.bat`:
+
+  ```powershell
+  vendor\\bin\\phpunit.bat
+  ```
+
+## **Arquitetura**
+
+O projeto segue um padrão inspirado no Laravel com separação clara entre camadas:
+
+- `app/Http/Controllers` — controladores HTTP (entrada/saída).
+- `app/Models` — modelos das entidades (`Question`, `Answer`, `User`).
+- `app/Repositories` — abstração de acesso a dados.
+- `app/Services` — regras de negócio e orquestração.
+- `app/Http/Requests` — validações específicas de requisição.
+- `app/Providers` — registros e bindings de serviços.
+- `database/migrations`, `database/factories`, `database/seeders` — esquema e dados de teste.
+
+## **Divisões de Responsabilidades**
+
+- **Controladores:** Recebem requisições, validam via `Requests` e delegam para `Services`.
+- **Requests:** Contêm regras de validação e autorização por endpoint.
+- **Services:** Implementam lógica de aplicação e orquestram `Repositories`.
+- **Repositories:** Lidam com persistência (queries, transações, queries complexas).
+- **Models:** Representam entidades e relacionamentos (Eloquent).
+- **Providers:** Registram dependências e configurações globais.
+- **Traits:** Comportamentos reutilizáveis (ex.: `HasUuid`).
+
+## **Pontos de Melhoria**
+
+- Cobertura de testes mais ampla (unitários e de integração).
+- Integração contínua (CI) com GitHub Actions para rodar testes e linter.
+- Documentação da API (OpenAPI/Swagger).
+- Melhor tratamento de erros e respostas padronizadas (API Resource / DTOs).
+- Caching para endpoints pesados e paginação consistente.
+- Implementar contratos/interfaces para `Repositories` e `Services` para facilitar testes e troca de implementação.
+- Monitoramento, logs estruturados e alertas.
+
+## **Decisões Técnicas Importantes**
+
+- Padrão Repository + Service para manter controllers finos e lógica testável.
+- Uso de migrations, factories e seeders para garantir reprodutibilidade de ambiente e testes.
+- UUIDs via `HasUuid` para identificação de recursos quando necessário.
+- Testes com `PHPUnit` e comandos via `php artisan test` para consistência com Laravel.
+- Organização modular de código (`app/Repositories`, `app/Services`) para facilitar manutenção e evolução.
+
+---
+
+Se quiser, posso adicionar um arquivo `README` em inglês, um guia de contribuição ou um workflow de CI (GitHub Actions) para rodar testes automaticamente.
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

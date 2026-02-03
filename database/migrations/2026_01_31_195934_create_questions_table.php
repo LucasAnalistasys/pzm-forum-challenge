@@ -15,8 +15,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->string('slug')->unique();
-            $table->text('body');
-            $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
+            $table->text('content'); // Alterado de 'body' para 'content'
+            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

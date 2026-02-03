@@ -1,10 +1,15 @@
 <?php    
 
 namespace App\Services;
+
 use App\Repositories\AuthRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Str;
 use App\Models\User;
+use Exception;
 
 class AuthService {
 
@@ -15,7 +20,8 @@ class AuthService {
          $this->authRepository = $authRepository;
     }
 
-    public function register(array $data)
+    
+    public function register(array $data) // Registro de um novo usuário
     {
         // Uso do Hash::make para o bcrypt
         $data['password'] = Hash::make($data['password']);
@@ -32,32 +38,49 @@ class AuthService {
         ];
     }
 
-    public function login(array $credentials)
-    {
-        // Verificar as credenciais
+    public function login(array $credentials) // Login do usuário
+    {   
+        // Tentativa de autenticação
         if (!Auth::attempt($credentials)) {
+            return null; 
+        }
+        
+
+
+        // Usuário autenticado
+        $user = Auth::user();
+
+        if (!$user instanceof User) {
             return null;
         }
 
-        $user = Auth::user();
-
-        // Gerar o token
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Gerar token
+        $token = $user->createToken('auth_token')->plainTextToken; 
 
         return [
-            'access_token' => $token,
-            'token_type' => 'Bearer',
+            'user' => $user,
+            'token' => $token,
         ];
     }
 
     public function logout()
     {
         $user = Auth::user();
-        if ($user) {
-            $user->currentAccessToken()->delete();
+
+        if (!$user instanceof User) {
+            return null;
         }
+        
+        if ($user) {
+            // Deleta todos os tokens do usuário logado
+            $user->tokens()->delete();
+            return true;
+        }
+
+        return false;
     }
 
+    // Retorna o usuário autenticado
     public function me()
     {
         return Auth::user();

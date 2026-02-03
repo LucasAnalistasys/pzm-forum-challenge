@@ -75,6 +75,6 @@ class AnswerController extends Controller
     public function destroy(Answer $answer): JsonResponse
     {
         $response = $this->answerService->destroy($answer->id);
-        return response()->json(['message' => 'Pergunta removida com sucesso']);
+        return response()->json(['message' => 'Resposta removida com sucesso']);
     }
 }
