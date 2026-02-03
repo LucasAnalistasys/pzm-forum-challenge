@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\AnswerRepository;
+use Illuminate\Support\Str; 
 
 class AnswerService{
 
@@ -15,21 +16,23 @@ class AnswerService{
     }
 
     // Lista todas as respostas
-    public function index(){
-        $response = $this->answerRepository->index();
-        return response()->json($response);
+    public function index($questionId){
+        return $this->answerRepository->index($questionId);
     }
 
     // Armazena uma nova resposta
-     public function store(array $data)
-    {
+     public function store(array $data, $questionId)
+    {   
+        $data['id'] = Str::uuid();
+        $data['user_id'] = auth()->id(); 
+        $data['question_id'] = $questionId;
+
         return $this->answerRepository->store($data);
     }
 
     // Exibe uma resposta específica
      public function show(string $id)
     {
-        
         return $this->answerRepository->show($id);
     }
 
@@ -41,6 +44,14 @@ class AnswerService{
 
     // Remove uma resposta específica
     public function destroy(string $id){
+        $answer = $this->answerRepository->show($id);
+
+        //Verfica se usário é dono da Resposta
+        if ($answer->user_id !== auth()->id())
+        {
+            abort(403, 'Você não tem Permissão para remover esta resposta.');
+        }
+
          return $this->answerRepository->destroy($id);
     }
 }

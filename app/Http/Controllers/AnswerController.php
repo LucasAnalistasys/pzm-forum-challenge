@@ -6,6 +6,7 @@ use App\Models\Answer;
 use App\Services\AnswerService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\AnswerRequest;
 
 class AnswerController extends Controller
 {   
@@ -20,9 +21,9 @@ class AnswerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index():JsonResponse
+    public function index($questionId):JsonResponse
     {   
-        $response = $this->answerService->index();
+        $response = $this->answerService->index($questionId);
         return response()->json($response);
     }
 
@@ -37,10 +38,10 @@ class AnswerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(AnswerRequest $request, $questionId): JsonResponse
     {   
-        $response = $this->answerService->store($request->all());
-        return response()->json($response);
+        $response = $this->answerService->store($request->validated(), $questionId);
+        return response()->json($response, 201);
     }
 
     /**
@@ -63,9 +64,9 @@ class AnswerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Answer $answer): JsonResponse
+    public function update(AnswerRequest $request, Answer $answer): JsonResponse
     {
-        $response = $this->answerService->update($answer->id, $request->all());
+        $response = $this->answerService->update($answer->id, $request->validated());
         return response()->json($response);
     }
 

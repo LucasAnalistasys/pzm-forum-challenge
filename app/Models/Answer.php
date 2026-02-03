@@ -4,13 +4,13 @@ namespace App\Models;
 
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Answer extends Model
 {
-    use HasUuid;
+    use HasUuid , HasFactory;
 
-    protected $fillable = ['body', 'user_id', 'question_id'];
+    protected $fillable = ['content', 'user_id', 'question_id'];
 
     public function user(){
         return $this->belongsTo(User::class);
